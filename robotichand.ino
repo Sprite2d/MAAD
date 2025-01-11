@@ -1,10 +1,16 @@
+#include <Servo.h>
+Servo myservo;
+int Xval;
+int servopin;
+int positionval;
 void setup() {
-  // put your setup code here, to run once:
-
+  
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  
-
+  Xval = analogRead(A0);
+  servopin = A1;
+  myservo.attach(servopin);
+  int Mappedvalue = map(Xval,0,1023,0,180);
+  myservo.write(Mappedvalue);
 }

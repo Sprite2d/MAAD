@@ -42,8 +42,8 @@ void loop() {
       servoclaw2.write(100);
     }
       if (isclawopen==false){
-      servoclaw.write(45);
-      servoclaw2.write(135);
+      servoclaw.write(0);
+      servoclaw2.write(180);
     }
     isclawopen = !isclawopen;
     delay(50);

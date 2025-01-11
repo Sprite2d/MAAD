@@ -13,7 +13,8 @@ int servoclawpin2;
 int positionval = 90;
 int positionval2 = 90;
 bool isclawopen = false;
-bool Debounce = false;
+unsigned long Debounce = 0;
+const unsigned long Delay = 50;
 void setup() {
   pinMode(JOYSTICK_BUTTON_PIN,INPUT_PULLUP);
 }
@@ -34,23 +35,18 @@ void loop() {
   servo.write(value);
   servo2.write(valuey);
   int buttonstate = digitalRead(JOYSTICK_BUTTON_PIN);
-  if (buttonstate == LOW && Debounce == false){
-    if (isclawopen==true && Debounce == false){
-      Debounce = true;
-      isclawopen = false;
+  if (buttonstate == LOW && (millis()-Debounce)>Delay){
+    Debounce = millis();
+    if (isclawopen==true){
       servoclaw.write(100);
       servoclaw2.write(100);
-      delay(500);
-      Debounce = false;
     }
-      if (isclawopen==false && Debounce == false){
-      Debounce = true;
-      isclawopen = true;
+      if (isclawopen==false){
       servoclaw.write(45);
       servoclaw2.write(135);
-      delay(500);
-      Debounce = false;
     }
+    isclawopen = !isclawopen;
+    delay(50);
   }
 
 }

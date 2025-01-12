@@ -17,11 +17,6 @@ unsigned long Debounce = 0;
 const unsigned long Delay = 50;
 void setup() {
   pinMode(JOYSTICK_BUTTON_PIN,INPUT_PULLUP);
-}
-
-void loop() {
-  Xval = analogRead(A0);
-  Yval = analogRead(A2);
   servopin = A1;
   servopin2 = A3;
   servoclawpin = A4;
@@ -30,6 +25,13 @@ void loop() {
   servo2.attach(servopin2);
   servoclaw.attach(servoclawpin);
   servoclaw2.attach(servoclawpin2);
+  servoclaw.write(100);
+  servoclaw2.write(100);
+}
+
+void loop() {
+  Xval = analogRead(A0);
+  Yval = analogRead(A2);
   int value = map(Xval,0,1023,0,180);
   int valuey = map(Yval,0,1024,0,180);
   servo.write(value);
@@ -38,15 +40,15 @@ void loop() {
   if (buttonstate == LOW && (millis()-Debounce)>Delay){
     Debounce = millis();
     if (isclawopen==true){
-      servoclaw.write(100);
-      servoclaw2.write(100);
+      servoclaw.write(90);
+      servoclaw2.write(90);
     }
       if (isclawopen==false){
-      servoclaw.write(0);
-      servoclaw2.write(180);
+      servoclaw.write(10);
+      servoclaw2.write(170);
     }
     isclawopen = !isclawopen;
-    delay(50);
+    delay(500);
   }
 
 }
